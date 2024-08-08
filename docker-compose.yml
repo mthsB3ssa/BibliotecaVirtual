@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    volumes:
-      - ./database:/app
     depends_on:
       - db
 
@@ -16,6 +14,7 @@ services:
       - "80:80"
 
   db:
+    image: alpine
     build: ./database
     volumes:
       - db_data:/var/lib/sqlite3
