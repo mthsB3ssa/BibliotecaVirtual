@@ -14,12 +14,8 @@ services:
 
   backend:
     build: ./backend
-    environment:
-      - DATABASE_URL=sqlite:///./database.db
-    depends_on:
-      - database
-
-  database:
-    build: ./database
     volumes:
-      - ./database:/data
+      - ./backend:/app
+      - ./backend/books.json:/app/books.json  # Mapeamento do arquivo JSON para o container
+    ports:
+      - "5000:5000"

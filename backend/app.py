@@ -1,7 +1,8 @@
+import json
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-import sqlite3
+from typing import List
 
 app = FastAPI()
 
@@ -14,41 +15,35 @@ app.add_middleware(
 )
 
 class Book(BaseModel):
+    id: int
     title: str
     author: str
     genre: str
 
-def get_db_connection():
-    conn = sqlite3.connect('database/database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+def load_books():
+    with open('books.json', 'r') as file:
+        return json.load(file)
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to the Virtual Library"}
+def save_books(books):
+    with open('books.json', 'w') as file:
+        json.dump(books, file, indent=4)
 
-@app.get('/api/books')
+@app.get("/api/books", response_model=List[Book])
 async def get_books():
-    conn = get_db_connection()
-    books = conn.execute('SELECT * FROM books').fetchall()
-    conn.close()
-    return [dict(book) for book in books]
+    return load_books()
 
 @app.post('/api/books', status_code=201)
 async def add_book(book: Book):
-    conn = get_db_connection()
-    conn.execute('INSERT INTO books (title, author, genre) VALUES (?, ?, ?)',
-                 (book.title, book.author, book.genre))
-    conn.commit()
-    conn.close()
+    books = load_books()
+    books.append(book.dict())
+    save_books(books)
     return {'message': 'Book added successfully'}
 
-@app.delete('/api/books/{id}', status_code=204)
-async def delete_book(id: int):
-    conn = get_db_connection()
-    conn.execute('DELETE FROM books WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
+@app.delete('/api/books/{book_id}', status_code=204)
+async def delete_book(book_id: int):
+    books = load_books()
+    books = [book for book in books if book['id'] != book_id]
+    save_books(books)
     return {'message': 'Book deleted successfully'}
 
 if __name__ == '__main__':
