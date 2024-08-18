@@ -1,23 +1,25 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nginx:
+    build: ./nginx
     ports:
-      - "5000:5000"
+      - "80:80"
     depends_on:
-      - db
+      - frontend
+      - backend
 
   frontend:
     build: ./frontend
-    ports:
-      - "80:80"
+    depends_on:
+      - backend
 
-  db:
-    image: alpine
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=sqlite:///./database.db
+    depends_on:
+      - database
+
+  database:
     build: ./database
     volumes:
-      - db_data:/var/lib/sqlite3
-
-volumes:
-  db_data:
+      - ./database:/data

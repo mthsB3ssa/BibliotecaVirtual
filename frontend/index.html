@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Online Library</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Library</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="scripts.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Online Library</h1>
-        <ul id="book-list"></ul>
-        <h2>Add Book</h2>
-        <form id="book-form">
-            <input type="text" id="title" placeholder="Title" required>
-            <input type="text" id="author" placeholder="Author" required>
-            <input type="text" id="genre" placeholder="Genre" required>
-            <button type="submit">Add Book</button>
-        </form>
-    </div>
+    <h1>Virtual Library</h1>
+    <form id="addBookForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <input type="text" id="author" placeholder="Author" required>
+        <input type="text" id="genre" placeholder="Genre" required>
+        <button type="submit">Add Book</button>
+    </form>
+    <h2>Books List</h2>
+    <ul id="booksList"></ul>
+    <script src="app.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
-FROM alpine:latest
+FROM alpine
 RUN apk add --no-cache sqlite
-COPY setup.sql /docker-entrypoint-initdb.d/
-CMD ["sqlite3", "database.db", ".read /docker-entrypoint-initdb.d/setup.sql"]
-
-
+WORKDIR /data
+COPY setup.sql /data/
+# O CMD abaixo deveria iniciar um processo que mantém o container rodando
+CMD ["sh", "-c", "sqlite3 database.db < setup.sql && tail -f /dev/null"]
