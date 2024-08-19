@@ -28,18 +28,18 @@ def save_books(books):
     with open('books.json', 'w') as file:
         json.dump(books, file, indent=4)
 
-@app.get("/api/books", response_model=List[Book])
+@app.get("/", response_model=List[Book])
 async def get_books():
     return load_books()
 
-@app.post('/api/books', status_code=201)
+@app.post('/books', status_code=201)
 async def add_book(book: Book):
     books = load_books()
     books.append(book.dict())
     save_books(books)
     return {'message': 'Book added successfully'}
 
-@app.delete('/api/books/{book_id}', status_code=204)
+@app.delete('/books/{book_id}', status_code=204)
 async def delete_book(book_id: int):
     books = load_books()
     books = [book for book in books if book['id'] != book_id]
@@ -48,4 +48,4 @@ async def delete_book(book_id: int):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host='0.0.0.0', port=5000)
+    uvicorn.run(app, host='0.0.0.0', port=8000)
