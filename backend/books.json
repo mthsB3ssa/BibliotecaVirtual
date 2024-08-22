@@ -4,5 +4,11 @@
         "title": "Example Book",
         "author": "Author Name",
         "genre": "Fiction"
+    },
+    {
+        "id": 1,
+        "title": "O nome do vento",
+        "author": "Patrick",
+        "genre": "Fantasia"
     }
 ]
