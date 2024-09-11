@@ -7,7 +7,7 @@ services:
     networks:
       - app-network
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Porta do backend
     depends_on:
       - db
 
@@ -16,7 +16,7 @@ services:
     networks:
       - app-network
     ports:
-      - "80:80"
+      - "80:80"  # Porta do frontend
     depends_on:
       - backend
 
