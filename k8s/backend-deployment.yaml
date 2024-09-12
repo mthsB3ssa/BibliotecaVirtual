@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: mthsbessa/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: db-service  # Nome do serviço Kubernetes para o banco de dados
+        - name: DB_PORT
+          value: "3306"  # Porta do banco de dados
