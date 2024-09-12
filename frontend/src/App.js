@@ -12,7 +12,7 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/books');
+      const response = await axios.get('/api/books');
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -26,7 +26,7 @@ function App() {
   const addBook = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/books', newBook);
+      await axios.post('/api/books', newBook);
       setNewBook({ title: '', author: '', genre: '' });
       fetchBooks();
     } catch (error) {
@@ -36,7 +36,7 @@ function App() {
 
   const deleteBook = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/books/${id}`);
+      await axios.delete(`/api/books/${id}`);
       fetchBooks();
     } catch (error) {
       console.error('Error deleting book:', error);
